@@ -17,7 +17,7 @@ from .images import (
 )
 
 from .widget import (
-    should_show_iframe, display_data_for_iframe
+    should_display_iframe, display_data_for_iframe
 )
 
 class IREPLWrapper(replwrap.REPLWrapper):
@@ -117,16 +117,16 @@ class BashKernel(Kernel):
             image_filenames, output = extract_image_filenames(output)
 
             # Send standard output
-            #stream_content = {'name': 'stdout', 'text': output}
-            #self.send_response(self.iopub_socket, 'stream', stream_content)
+            stream_content = {'name': 'stdout', 'text': output}
+            self.send_response(self.iopub_socket, 'stream', stream_content)
 
             # send html
-            # if should_display_iframe(output)
-            try:
-                data = display_data_for_iframe()
-                self.send_response(self.iopub_socket, 'display_data', data)
-            except ValueError as e:
-                message = {'name': 'stdout', 'text': str(e)}
+            if should_display_iframe(output):
+                try:
+                    data = display_data_for_iframe()
+                    self.send_response(self.iopub_socket, 'display_data', data)
+                except ValueError as e:
+                    message = {'name': 'stdout', 'text': str(e)}
 
             # Send images, if any
             for filename in image_filenames:

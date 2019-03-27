@@ -1,6 +1,6 @@
 
 
-def should_show_iframe(output):
+def should_display_iframe(output):
     return 'iframe' in output
 
 def display_data_for_iframe():
