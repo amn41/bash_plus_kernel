@@ -123,7 +123,8 @@ class BashKernel(Kernel):
             # send html
             if should_display_iframe(output):
                 try:
-                    data = display_data_for_iframe()
+                    url = output.split("iframe")[1].strip()
+                    data = display_data_for_iframe(url)
                     self.send_response(self.iopub_socket, 'display_data', data)
                 except ValueError as e:
                     message = {'name': 'stdout', 'text': str(e)}
