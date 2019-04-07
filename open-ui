@@ -1,0 +1,7 @@
+./ngrok http 8000 &
+URL=$(curl localhost:4040/api/tunnels | \
+      python -mjson.tool | \
+      grep public_url | \
+      grep https | \
+      sed 's/"*[^"]*": "\([^"]*\)",/\1/')
+echo "button $URL"

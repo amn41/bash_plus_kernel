@@ -17,7 +17,7 @@ from .images import (
 )
 
 from .widget import (
-    should_display_iframe, display_data_for_iframe
+    should_display_button, display_data_for_button
 )
 
 class IREPLWrapper(replwrap.REPLWrapper):
@@ -121,10 +121,10 @@ class BashKernel(Kernel):
             self.send_response(self.iopub_socket, 'stream', stream_content)
 
             # send html
-            if should_display_iframe(output):
+            if should_display_button(output):
                 try:
-                    url = output.split("iframe")[1].strip()
-                    data = display_data_for_iframe(url)
+                    url = output.split("button")[1].strip()
+                    data = display_data_for_button(url)
                     self.send_response(self.iopub_socket, 'display_data', data)
                 except ValueError as e:
                     message = {'name': 'stdout', 'text': str(e)}
